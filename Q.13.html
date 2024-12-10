@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Content Loading</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      text-align: center;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 300px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 20px 0;
+    }
+
+    li {
+      padding: 8px;
+      font-size: 18px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    li:last-child {
+      border-bottom: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    button:hover:not(:disabled) {
+      background-color: #0056b3;
+    }
+
+    .no-more-items {
+      margin-top: 20px;
+      font-size: 16px;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Item List</h1>
+    <ul id="item-list">
+      
+    </ul>
+    <button id="load-more-btn">Load More</button>
+    <div id="no-more-items" class="no-more-items" style="display: none;">
+      No more items to load
+    </div>
+  </div>
+  <script>
+    const items = Array.from({ length: 30 }, (_, i) => `Item ${i + 1}`);
+    const itemsPerPage = 5;
+    let itemsDisplayed = 0;
+
+    const itemList = document.getElementById("item-list");
+    const loadMoreBtn = document.getElementById("load-more-btn");
+    const noMoreItems = document.getElementById("no-more-items");
+
+    function loadItems() {
+      const start = itemsDisplayed;
+      const end = Math.min(itemsDisplayed + itemsPerPage, items.length);
+      const itemsToLoad = items.slice(start, end);
+
+      itemsToLoad.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        itemList.appendChild(li);
+      });
+
+      itemsDisplayed += itemsToLoad.length;
+
+      if (itemsDisplayed >= items.length) {
+        loadMoreBtn.style.display = "none";
+        noMoreItems.style.display = "block";
+      }
+    }
+
+    
+    loadMoreBtn.addEventListener("click", loadItems);
+
+    
+    loadItems();
+  </script>
+</body>
+</html>
