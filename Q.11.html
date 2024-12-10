@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagination Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      text-align: center;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    #output {
+      margin: 20px 0;
+      font-size: 18px;
+    }
+
+    .pagination-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    button:hover:not(:disabled) {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Paginated List</h1>
+    <div id="output"></div>
+    <div class="pagination-controls">
+      <button id="prev-btn" disabled>Previous</button>
+      <span id="page-number">Page 1</span>
+      <button id="next-btn">Next</button>
+    </div>
+  </div>
+  <script>
+    const numbers = Array.from({ length: 50 }, (_, i) => i + 1);
+    const itemsPerPage = 10;
+    let currentPage = 1;
+
+    const output = document.getElementById("output");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const pageNumber = document.getElementById("page-number");
+
+    function renderPage(page) {
+      const start = (page - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const items = numbers.slice(start, end);
+
+      output.innerHTML = items.join(", ");
+      pageNumber.textContent = `Page ${page}`;
+
+      prevBtn.disabled = page === 1;
+      nextBtn.disabled = page === Math.ceil(numbers.length / itemsPerPage);
+    }
+
+    prevBtn.addEventListener("click", () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderPage(currentPage);
+      }
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (currentPage < Math.ceil(numbers.length / itemsPerPage)) {
+        currentPage++;
+        renderPage(currentPage);
+      }
+    });
+
+    
+    renderPage(currentPage);
+  </script>
+</body>
+</html>
