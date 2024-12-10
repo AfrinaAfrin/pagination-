@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sort Products</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      text-align: center;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 20px 0;
+    }
+
+    li {
+      padding: 8px;
+      font-size: 18px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    li:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Product List</h1>
+    <button id="sortByPriceAsc">Sort by Price (Asc)</button>
+    <button id="sortByPriceDesc">Sort by Price (Desc)</button>
+    <button id="sortByNameAsc">Sort by Name (Asc)</button>
+    <button id="sortByNameDesc">Sort by Name (Desc)</button>
+    <ul id="product-list">
+      
+    </ul>
+  </div>
+  <script>
+    const products = [
+      { name: 'Phone', price: 800 },
+      { name: 'Laptop', price: 1500 },
+      { name: 'Tablet', price: 400 }
+    ];
+
+    const productList = document.getElementById("product-list");
+
+    
+    function renderProducts(items) {
+      productList.innerHTML = ""; 
+      items.forEach(product => {
+        const li = document.createElement("li");
+        li.textContent = `${product.name} - $${product.price}`;
+        productList.appendChild(li);
+      });
+    }
+
+    
+    document.getElementById("sortByPriceAsc").addEventListener("click", () => {
+      products.sort((a, b) => a.price - b.price);
+      renderProducts(products);
+    });
+
+    document.getElementById("sortByPriceDesc").addEventListener("click", () => {
+      products.sort((a, b) => b.price - a.price);
+      renderProducts(products);
+    });
+
+    document.getElementById("sortByNameAsc").addEventListener("click", () => {
+      products.sort((a, b) => a.name.localeCompare(b.name));
+      renderProducts(products);
+    });
+
+    document.getElementById("sortByNameDesc").addEventListener("click", () => {
+      products.sort((a, b) => b.name.localeCompare(a.name));
+      renderProducts(products);
+    });
+
+    
+    renderProducts(products);
+  </script>
+</body>
+</html>
