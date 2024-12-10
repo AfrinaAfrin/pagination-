@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Filter for a List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      text-align: center;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 300px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      padding: 8px;
+      font-size: 18px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    li:last-child {
+      border-bottom: none;
+    }
+
+    .no-results {
+      font-size: 16px;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Fruit List</h1>
+    <input type="text" id="search-bar" placeholder="Search fruits...">
+    <ul id="fruit-list">
+      <!-- Fruit list items will be dynamically populated -->
+    </ul>
+  </div>
+
+  <script>
+    const fruits = [
+      "Apple", 
+      "Banana", 
+      "Cherry", 
+      "Date", 
+      "Fig", 
+      "Grape", 
+      "Kiwi", 
+      "Lemon", 
+      "Mango", 
+      "Orange"
+    ];
+
+    const searchBar = document.getElementById("search-bar");
+    const fruitList = document.getElementById("fruit-list");
+
+    // Function to render the fruit list
+    function renderList(items) {
+      fruitList.innerHTML = ""; // Clear existing items
+      if (items.length > 0) {
+        items.forEach(fruit => {
+          const li = document.createElement("li");
+          li.textContent = fruit;
+          fruitList.appendChild(li);
+        });
+      } else {
+        fruitList.innerHTML = `<li class="no-results">No results found</li>`;
+      }
+    }
+
+    // Function to filter the fruit list
+    function filterList() {
+      const searchTerm = searchBar.value.toLowerCase();
+      const filteredFruits = fruits.filter(fruit =>
+        fruit.toLowerCase().includes(searchTerm)
+      );
+      renderList(filteredFruits);
+    }
+
+    // Attach event listener to the search bar
+    searchBar.addEventListener("input", filterList);
+
+    // Initial render
+    renderList(fruits);
+  </script>
+</body>
+</html>
